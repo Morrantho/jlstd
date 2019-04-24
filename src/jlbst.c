@@ -48,7 +48,10 @@ int jlbst_value( jlbst* node )
 }
 bool jlbst_contains( jlbst* bst, int value )
 {
-	return false;
+	if( !ISNULL( bst ) && bst->value == value ) return true;
+	else if( value < bst->value && !ISNULL( bst->left ) ) return jlbst_contains( bst->left, value );
+	else if( value > bst->value && !ISNULL( bst->right ) ) return jlbst_contains( bst->right, value );
+	else return false;
 }
 void jlbst_inorder( jlbst* bst, void (*cb)( jlbst* node ) )
 {
@@ -61,13 +64,13 @@ void jlbst_preorder( jlbst* bst, void (*cb)( jlbst* node ) )
 {
 	if( ISNULL( bst ) ) return;
 	cb( bst );
-	jlbst_inorder( bst->left, cb );
-	jlbst_inorder( bst->right, cb );
+	jlbst_preorder( bst->left, cb );
+	jlbst_preorder( bst->right, cb );
 }
 void jlbst_postorder( jlbst* bst, void (*cb)( jlbst* node ) )
 {
 	if( ISNULL( bst ) ) return;
-	jlbst_inorder( bst->left, cb );
-	jlbst_inorder( bst->right, cb );
+	jlbst_postorder( bst->left, cb );
+	jlbst_postorder( bst->right, cb );
 	cb( bst );
 }

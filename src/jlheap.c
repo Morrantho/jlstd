@@ -49,6 +49,7 @@ void jlheap_doinsert( jlheap* heap, int value, int child )
 
 void jlheap_insert( jlheap* heap, int value )
 {
+	if( value <= 0 ) return;
 	heap->data = realloc( heap->data, heap->size++ );
 	heap->data[ heap->size-1 ] = value;
 	jlheap_doinsert( heap, value, heap->size-1 );
